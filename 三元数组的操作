@@ -1,0 +1,137 @@
+/*
+	Name:Triplet.cpp 
+	Copyright: 1913041515
+	Author:王宇超 
+	Date: 25/02/20 20:00
+	Description:抽象数据类型的表示和实现 
+*/
+
+#include<stdio.h>
+#include<stdlib.h>
+#define OK 1
+#define ERROR 0
+
+typedef int Status;
+typedef float ElemType;
+typedef ElemType* Triplet;
+
+Status initTriplet(Triplet &T,ElemType v0,ElemType v1,ElemType v2)
+{
+	T = (ElemType*)malloc(3*sizeof(ElemType));
+	T[0]=v0;
+	T[1]=v1;
+	T[2]=v2;
+	return OK;
+} 
+
+Status destoryTriplet(Triplet &T)
+{
+	return OK;
+}
+
+Status getElem(Triplet T,int i,ElemType &e)
+{
+	if(i<1||i>3)
+	return ERROR;
+	else 
+	e=T[i-1];
+	return OK;
+}
+ 
+Status putElem(Triplet &T,int i,ElemType e)
+{
+	if(i<1||i>3)
+	return ERROR;
+	else
+	T[i-1]=e;
+	return OK;
+}
+
+Status isAscending(Triplet T)
+{
+	return (T[0]<=T[1])&&(T[1]<=T[2]);
+}
+
+Status isDescending(Triplet T)
+{
+	return (T[0]>=T[1])&&(T[1]>=T[2]);
+} 
+
+ElemType getMax(Triplet T,ElemType &e)
+{
+	if(T[0]>T[1])
+	e=T[0];
+	else e=T[1];
+    if(T[2]>e)
+    e=T[2];
+    return e;
+} 
+
+ElemType getMin(Triplet T,ElemType &e)
+{
+	if(T[0]<T[1])
+	e=T[0];
+	else e=T[1];
+    if(T[2]<e)
+    e=T[2];
+    return e;
+} 
+
+int main()
+{
+	Triplet T;
+	Status flag,i,num,n;
+	ElemType v0,v1,v2,e,e1,e2;
+	printf("**************三元组的操作菜单**************\n");
+	printf("请为三元组的三个值v0，v1，v2赋值，中间用逗号隔开\n");
+	scanf("%f,%f,%f",&v0,&v1,&v2);
+	printf("1.初始化函数\n");
+	printf("2.输出三元组中的最大值\n");
+	printf("3.输出三元组中的最小值\n");
+	printf("4.判断三元组升降序幕\n");
+	printf("5.输出全部数据\n");
+	printf("6.删除某个数据\n");
+	printf("**********请输入你想进行操作的序号**********\n");
+	for(n=1;n<=6;n++)
+	{
+	scanf("%d",&num); 
+	initTriplet(T,v0,v1,v2);
+	getElem(T,i,e);
+	putElem(T,i,e);
+	flag=initTriplet(T,v0,v1,v2);
+	if(num==1)
+	{
+		printf("初始化函数 flag=%d\n,T的三个值为%f,%f,%f\n",flag,T[0],T[1],T[2]);
+	}
+	if(num==4)
+	{
+		if(isAscending(T))
+		printf("该三元组元素为升序\n");
+		if(isDescending(T))
+		printf("该三元组元素为降序\n");
+	}
+	if(num==2)
+	{
+		e1=getMax(T,e);
+		printf("该三元组的最大值为：%f\n",e1);
+	}
+	if(num==3)
+	{
+		e2=getMin(T,e);
+		printf("该三元组的最小值为：%f\n",e2);	
+	}
+	if(num==5)
+	{
+		printf("初始化函数 flag=%d，T的三个值为%f,%f,%f\n",flag,T[0],T[1],T[2]);
+		if(isAscending(T))
+		printf("该三元组元素为升序\n");
+		if(isDescending(T))
+		printf("该三元组元素为降序\n");
+		e1=getMax(T,e);
+		e2=getMin(T,e);
+		printf("该三元组中的最大值为：%f\n",e1);
+		printf("该三元组中的最小值为：%f\n",e2);
+	}
+	}
+	return OK;
+} 
