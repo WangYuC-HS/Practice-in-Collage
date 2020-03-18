@@ -1,0 +1,155 @@
+/*
+	Name: 单链表的相关操作 
+	Copyright: 王宇超 
+	Author: 1913041515 
+	Date: 12/03/20 18:09
+	Description: 创建，插入，删除，查找，显示 
+*/
+
+#include<stdio.h>
+#include<stdlib.h>
+
+#define ERROR 0
+#define OK 1
+
+typedef int Status;
+typedef int ElemType;
+
+//单链表存储结构实现 
+typedef struct LNode{
+	ElemType data;
+	struct LNode *next;
+}LNode,*LinkList;
+
+//创建单链表（尾插法） 
+void CreateList_L(LinkList &L,int n) 
+{
+	LinkList r,s;
+	L=(LNode*)malloc(sizeof(LNode));
+	r=L;
+	L->next=NULL;
+	int i;
+	for(i=1;i<=n;++i)
+	{
+		s=(LNode*)malloc(sizeof(LNode));
+		printf("请输入第%d位元素：",i);
+		scanf("%d",&s->data);
+		s->next=NULL;
+		r->next=s;
+		r=s;
+	}
+}
+
+//插入操作
+Status Linklist_L(LinkList &L,int i,ElemType e)
+{
+	LinkList p,s;
+	int j;
+	p=L;j=1;
+	while(p&&j<i-1)
+	{
+		p=p->next;
+		j++;
+	}
+	if(!p||j>i-1)
+	return ERROR;
+	s=(LinkList)malloc(sizeof(LNode));
+	s->data=e;
+	s->next=p->next;
+	p->next=s;
+	return OK;
+}
+
+//查找操作
+Status GetElem_L(LinkList &L, int i, ElemType &e)
+{
+	int j;
+	LinkList p;
+	p = L->next;
+	j = 1;
+	while(j < i&&p)
+	{
+		j++;
+		p = p->next;
+	}
+	e = p->data;
+	return OK;
+	
+}
+
+//删除操作
+Status LinkDelete_L(LinkList &L,int i,ElemType &e)
+{
+	LinkList q,p;
+	int j;
+	p=L;j=1;
+	while(p->next&&j<i-1)
+	{
+		p=p->next;j++;
+	}
+	q=p->next;
+	p->next=q->next;
+	e=q->data;
+	free(q);
+	return OK;
+}
+
+//显示操作
+Status LinkOut(LinkList &L) 
+{
+	LinkList p;
+	p=L->next;
+	while(p)
+	{
+		printf("%d/n",p->data);
+		p=p->next;
+	}
+	printf("\n");
+}
+
+int main()
+{
+	LinkList L;
+	int n,d,h,i;
+	ElemType e;
+	printf("**********单链表操作系统**********\n");
+	printf("请输入元素个数：");
+	scanf("%d",&n); 
+	CreateList_L(L,n);
+	while(1)
+	{
+	printf("********操作序号*********\n");
+	printf("1.插入元素\n");
+	printf("2.删除元素\n");
+	printf("3.显示全部元素\n");
+	printf("4.查找元素\n");
+	printf("*************************\n");
+	printf("请输入你想进行的操作:\n");
+	scanf("%d\n",&h);
+	if(h==1){	
+			printf("你要在第几位前插入元素？\n");
+			scanf("%d\n",&i);
+			printf("输入你要插入的元素：\n");
+			scanf("%d\n",&e);
+			Linklist_L(L,i,e);
+		}
+	else if(h==2){
+			printf("你要删除第几位元素？\n");
+			scanf("%d\n",&i);
+			LinkDelete_L(L,i,e);
+			printf("好的，删除完了，删除的元素是%d。\n",e);
+		}
+	else if(h==3){
+			LinkOut(L);
+		}
+	else if(h==4){
+			printf("想查找第几个元素:\n");
+				scanf("%d",&i);
+				GetElem_L(L, i, e);
+				printf("元素值为:%f\n", e);
+		}
+	else
+	printf("你输入的序号有误！");	
+	}
+	return 0;
+}
